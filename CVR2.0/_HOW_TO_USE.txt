@@ -1,0 +1,76 @@
+HOW TO USE THIS CODE AS A BASE FOR ANY PROJECT
+This base code allows complex programs by using a scheduler to control
+tasks in parallel.
+
+Author: Harley, Nov 2021 
+
+    All files are located in the > lib: folder except main.cpp
+    Files that you need to edit, are labeled here.
+     
+     > tasks: Contains all the tasks the user wants to run.
+              Tasks are a bundle of functions that control one
+              area of your program. Priming, Collecting Samples
+              for example. **Avoid using "blocking" code like delays
+              and whlie loops in tasks**. Use timers and counters 
+              instead. Tasks are called every loop of the program while they
+              are in the "RUNNING" state. You can set them as RUNNING in _task_cfg.cpp
+              or another task can call yourTask.start();
+
+        edit       > _task_cfg.cpp: Add your tasks to task_list in this file AND give
+                                    the task an ENUM in task_enum in _task_cfg.h
+
+        edit       > _task_cfg.h:   give your task an ENUM in this file. The ENUM order needs
+                                    the match the task_list order in _task_cfg.cpp
+
+        DONT edit  > _task_EXAMPLE: Copy and paste this example task into the tasks folder
+                                    to make your own tasks. Follow the instructions in it
+
+     > cfg: Use this to set up hardware inputs and declare eeprom memory locations
+
+        edit       > btn_cfg:      Use to set up hardware "button like" devices, to start a task with.
+                                   You can also just check button states with functions provided
+                                   in z_OneButton library
+
+        edit       > data:         Use to edit how data is uploaded to grafana and node red
+
+        edit       > switch_cfg:   Use to set up hardware to start a task with a switch, or
+                                   for devices that detect states. Such as a float
+                                   Switch, leak detector. z_Switch-master library for functions
+
+        edit       > shiftRegisterHandler: Use to declare devices that will be turned on and off with
+                                   the shift register on the PCB (The relays for example).
+                                   Use the functions delcared here to control the shift register.                  
+
+        edit       > memory:       For reading and writing to memory. Use these functions
+                                   rather than EEPROM.write. It is more flexible and easier to use.
+                                   Also use this area to declare memory addresses for storing values you
+                                   want to keep after the arduino turns off
+
+        edit       > wifi:         Give wifi password here and MQTT controls
+
+        edit       > global:       Use to declare global functions, pin defines, whatver.
+
+
+     > system: Top level system control
+
+        DONT edit  > scheduler:    Controls the running of tasks and what state are they in. (running, stopped, waiting etc)
+
+        DONT edit  > btnHandler:   Updates the states of buttons and switches
+        
+        
+
+     > z_***** :      External libraries edited for use here. The z_ prefix is to just sort them at the bottom.
+                      You should NOT EDIT these probably
+
+        > z_sampleControl:         Custom library for communicating with the auto sampler
+                                   machine. Edit with caution.
+
+        > z_OneButton:             Custom library for controlling button like devices. Find functions in here
+
+        > z_Switch-master:         Custom library for controlling button like devices Find functions in here
+
+        Everything else:           Shouldn't need to look at
+
+
+     
+                                 
